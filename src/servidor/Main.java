@@ -27,9 +27,12 @@ public class Main extends PApplet{
 	public void draw() {
 		background(0);
 		
+		
 		switch(pantallas) {
 		case 0:
 			partida.pintar();
+			fill(255);
+			text("X:" + mouseX + "Y:" + mouseY, mouseX, mouseY);
 			break;
 		}
 		

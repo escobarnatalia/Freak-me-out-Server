@@ -6,9 +6,13 @@ import processing.core.PImage;
 public class PartidaView extends Pantalla{
 	
 	PImage fondo;
+	Logica logica;
 
 	public PartidaView(PApplet app) {
 		super (app);
+		
+		logica = new Logica(app);
+		
 		
 	}
 	
@@ -19,6 +23,7 @@ public class PartidaView extends Pantalla{
 	
 	public void pintar() {
 		app.image(fondo, 0, 0, 1200, 700);
+		logica.pintarLogica();
 		
 	}
 
