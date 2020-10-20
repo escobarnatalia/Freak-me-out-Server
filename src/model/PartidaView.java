@@ -22,6 +22,7 @@ public class PartidaView extends Pantalla{
 	}
 	
 	public void pintar() {
+		app.imageMode(CORNER);
 		app.image(fondo, 0, 0, 1200, 700);
 		logica.pintarLogica();
 		

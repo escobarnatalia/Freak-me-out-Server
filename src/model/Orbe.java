@@ -1,28 +1,34 @@
 package model;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
-public class Orbe {
+public class Orbe extends Pantalla{
 	
-	private PApplet app; 
 	private float posX;
 	private float posY;
 	private String orbe;
-	private int tam; 
+	PImage orbe1;
+	PImage orbe2;
 	
 	
-	public Orbe(float posX, float posY, int tam, PApplet app) {
+	public Orbe(float posX, float posY, PApplet app) {
+		super(app);
 		this.app = app;
 		this.posX = posX;
 		this.posY = posY;
-		this.tam = tam; 
+		
+		orbe1 = app.loadImage("img/orbe1.png");
+		orbe2 = app.loadImage("img/orbe2.png");
 		
 	}
 	
+	
 	public void pintarOrbe() {
-		app.ellipseMode(app.CENTER);
-		app.fill(255);
-		app.ellipse(posX, posY, tam, tam);
+		app.imageMode(CENTER);
+		app.image(orbe1, posX, posY);
+		app.image(orbe2, posX, posY);
+		
 	}
 
 }

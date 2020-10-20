@@ -17,9 +17,9 @@ public class Logica {
 
 			float posX = app.random(404, 820);
 			float posY = app.random(437, 550);
-			int tam = 25;
 
-			orbeList.add(new Orbe(posX, posY, tam, app));
+
+			orbeList.add(new Orbe(posX, posY, app));
 			
 			//System.out.println("aiuda");
 

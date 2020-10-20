@@ -19,9 +19,7 @@ public class Main extends PApplet{
 		partida = new PartidaView(this);
 		partida.cargar();
 		pantallas = 0; 
-		
-		
-		
+	
 		
 	}
 	public void draw() {
