@@ -10,17 +10,24 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.UUID;
 
+import com.google.gson.Gson;
+
+import model.Coord;
+import model.Generic;
+
 public class Session extends Thread {
 
-	
+	private Coord coord;
 	private String id;
 	private BufferedWriter writer;
 	private Socket socket;
 	private Main observer;
-
+	
 	public Session(Socket socket) {
 		this.socket = socket;
 		this.id = UUID.randomUUID().toString();
+		coord = new Coord(250,250);
+		
 
 	}
 
@@ -38,6 +45,10 @@ public class Session extends Thread {
 				System.out.println("Esperando...");
 				String line = reader.readLine();
 				observer.ReceivedMessage(this,line);
+	
+				
+				
+				
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -69,6 +80,16 @@ public class Session extends Thread {
 		return this.id;
 	}
 	
+	
+	public Coord getCoord() {
+		return this.coord;
+		
+	}
+
+	public void setCoord(Coord coord) {
+		// TODO Auto-generated method stub
+		this.coord = coord;
+	}
 	
 	
 }

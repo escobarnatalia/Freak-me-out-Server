@@ -69,30 +69,16 @@ class TCPServidor extends Thread {
 			}
 			
 
-				/*Gson gson = new Gson();
-				Generic generic = gson.fromJson(line,Generic.class);*/
-				
-				
-				/*switch(generic.getType()) {
-				case "Coord":
-					Coord coordenada = gson.fromJson(line, Coord.class);
-					float posx=coordenada.getX();
-					float posy=coordenada.getY();
-					observer.SetCoord(posx,posy);
-					System.out.println(posx);
-					System.out.println(posy);
-					
-					break;
-				}*/
-				
-				
-				
-				
-
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public ArrayList<Session> getSessions() {
+		// TODO Auto-generated method stub
+		return this.sessions;
+		
 	}
 
 	

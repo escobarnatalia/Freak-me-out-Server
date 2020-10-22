@@ -1,5 +1,9 @@
 package servidor;
 
+import com.google.gson.Gson;
+
+import model.Coord;
+import model.Generic;
 import model.Inicio;
 import model.PartidaView;
 import processing.core.PApplet;
@@ -65,9 +69,17 @@ public class Main extends PApplet {
 			partida.pintarPartida();
 			//partida.tiempo();
 
-			image(P1, x, y, 105, 70);
+			
+			tcp.getSessions();
+			for(int i = 0 ; i < tcp.getSessions().size(); i++) {
+				Session session =  tcp.getSessions().get(i);
+				image(P1, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
+				
+			}
+			
+			
+			
 			fill(255);
-			ellipse(x, y, 105, 70);
 			text("X:" + mouseX + "Y:" + mouseY, mouseX, mouseY);
 			
 			
@@ -96,6 +108,35 @@ public class Main extends PApplet {
 
 	public void ReceivedMessage(Session s, String line) {
 		// TODO Auto-generated method stub
+		
+		Gson gson = new Gson();
+		Coord coordReceived = gson.fromJson(line, Coord.class);
+		s.setCoord(coordReceived);
+		
+		
+		
+		
+		
+		
+		Generic generic = gson.fromJson(line,Generic.class);
+		
+		
+		
+		/*switch(generic.getType()) {
+		case "Coord":
+			
+			float posx=coordenada.getX();
+			float posy=coordenada.getY();
+			observer.SetCoord(posx,posy);
+			System.out.println(posx);
+			System.out.println(posy);
+			
+			break;
+		}*/
+		
+		
+		
+		
 		System.out.println("message" + s.getID() + ":" + line);
 
 	}
