@@ -18,7 +18,7 @@ public class Main extends PApplet{
 	public void setup() {
 		partida = new PartidaView(this);
 		partida.cargar();
-		pantallas = 1; 
+		pantallas = 0; 
 	
 		
 	}
@@ -28,9 +28,6 @@ public class Main extends PApplet{
 		
 		switch(pantallas) {
 		case 0:
-			partida.pintarMenu();
-			break;
-		case 1:
 			partida.pintarPartida();
 			fill(255);
 			text("X:" + mouseX + "Y:" + mouseY, mouseX, mouseY);
@@ -40,8 +37,8 @@ public class Main extends PApplet{
 	}
 	
 	public void mouseDragged() {
-		partida.arratrarLogica();
-		partida.eliminar();
+		partida.arrastrarLogica();
+		
 	}
 
 }

@@ -7,7 +7,7 @@ public class PartidaView extends Pantalla {
 
 	Logica logica;
 	PImage fondo;
-	PImage menu;
+	
 
 	public PartidaView(PApplet app) {
 		super(app);
@@ -18,7 +18,7 @@ public class PartidaView extends Pantalla {
 
 	public void cargar() {
 		fondo = app.loadImage("img/fondo.jpg");
-		menu = app.loadImage("img/MenuBg.png");
+		
 
 	}
 
@@ -28,17 +28,11 @@ public class PartidaView extends Pantalla {
 		logica.pintarLogica();
 	}
 	
-	public void pintarMenu() {
-		app.imageMode(CORNER);
-		app.image(menu, 0, 0, 1200, 700);
-	}
 
-	public void arratrarLogica() {
+	public void arrastrarLogica() {
 		logica.arrastrar();
 	}
 
-	public void eliminar() {
-		logica.eliminarOrbe();
-	}
+	
 
 }

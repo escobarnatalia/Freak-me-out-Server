@@ -9,6 +9,7 @@ public class Orbe extends Pantalla {
 	private float posY;
 	private String orbe;
 	private boolean isBlue;
+	//public boolean isMove;
 
 
 	PImage orbee;
@@ -25,6 +26,8 @@ public class Orbe extends Pantalla {
 		} else {
 			orbee = app.loadImage("img/orbe1.png");
 		}
+		
+		//this.isMove = false;
 
 		
 
@@ -39,6 +42,17 @@ public class Orbe extends Pantalla {
 	public void mover(float x, float y) {
 		this.posX = x;
 		this.posY = y;
+		
+		//this.isMove = true;
+	}
+
+
+	public boolean isBlue() {
+		return isBlue;
+	}
+
+	public void setBlue(boolean isBlue) {
+		this.isBlue = isBlue;
 	}
 
 	public float getPosX() {
@@ -56,5 +70,7 @@ public class Orbe extends Pantalla {
 	public void setPosY(float posY) {
 		this.posY = posY;
 	}
+
+	
 
 }
