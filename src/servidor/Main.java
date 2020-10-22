@@ -32,6 +32,7 @@ public class Main extends PApplet {
 
 		tcp = TCPServidor.getInstance();
 		tcp.setObserver(this);
+		//tcp.start();
 
 		partida = new PartidaView(this);
 		partida.cargar();
@@ -70,5 +71,14 @@ public class Main extends PApplet {
 		x=posx;
 		y=posy;
 	}
+	
+	public void ReceivedMessage(Session s, String line) {
+		// TODO Auto-generated method stub
+		System.out.println("message"+s.getID()+":"+line);
+		
+	}
+	
+	
+	
 
 }
