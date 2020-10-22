@@ -12,15 +12,17 @@ import java.net.Socket;
 
 import com.google.gson.Gson;
 
+import model.Coord;
+import model.Generic;
+
+
 class TCPServidor extends Thread {
 
 	// Objeto unico que se va a usar en todas las demás sesiones
 	protected static TCPServidor instanciaUnica;
 
 	// Constructor inaccesible por medios normales
-	private TCPServidor() {
-		// TODO Auto-generated constructor stub
-	}
+	private TCPServidor() {}
 
 	protected static TCPServidor getInstance() {
 		if (instanciaUnica == null) {
@@ -29,7 +31,18 @@ class TCPServidor extends Thread {
 		}
 		return instanciaUnica;
 	}
-
+	
+	 private Main observer;
+	    
+	    public void setObserver(Main observer) {
+	    	this.observer = observer;
+	    }
+	    
+	    public Main getObserver() {
+	    	return observer;
+	    }
+	
+	
 	private Socket socket;
 	private ServerSocket server;
 	private BufferedReader reader;
@@ -39,7 +52,7 @@ class TCPServidor extends Thread {
 	public void run() {
 		try {
 			// 1.esperando conexion, saludar
-			server = new ServerSocket(7000);
+			server = new ServerSocket(5000);
 			System.out.println("Esperando conexion");
 			socket = server.accept();
 			// 3.cliente y servidor conectados
@@ -47,25 +60,43 @@ class TCPServidor extends Thread {
 
 			InputStream is = socket.getInputStream();
 			InputStreamReader isr = new InputStreamReader(is);
-
 			reader = new BufferedReader(isr);
 
 			OutputStream os = socket.getOutputStream();
 			OutputStreamWriter osw = new OutputStreamWriter(os);
-
 			writer = new BufferedWriter(osw);
 
 			while (true) {
 				System.out.println("Esperando...");
 				String line = reader.readLine();
 				System.out.println("Recibido: " + line);
+
 				Gson gson = new Gson();
+				Generic generic = gson.fromJson(line,Generic.class);
+				
+				
+				switch(generic.getType()) {
+				case "Coord":
+					Coord coordenada = gson.fromJson(line, Coord.class);
+					float posx=coordenada.getX();
+					float posy=coordenada.getY();
+					observer.SetCoord(posx,posy);
+					System.out.println(posx);
+					System.out.println(posy);
+					
+					break;
+				}
+				
+				
+				
+				
+
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void SendMessage(String msg) {
 		new Thread(() -> {
 			try {

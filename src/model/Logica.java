@@ -57,7 +57,7 @@ public class Logica {
 			Orbe orbecito = orbeArray.get(i);
 			
 			
-			if (app.dist(app.mouseX, app.mouseY, orbecito.getPosX(), orbecito.getPosY()) < 25) {
+			if (PApplet.dist(app.mouseX, app.mouseY, orbecito.getPosX(), orbecito.getPosY()) < 25) {
 				orbecito.mover(app.mouseX, app.mouseY);
 				eliminarOrbe(orbecito);
 				return;
