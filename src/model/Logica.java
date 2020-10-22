@@ -55,8 +55,7 @@ public class Logica {
 
 		for (int i = 0; i < orbeArray.size(); i++) {
 			Orbe orbecito = orbeArray.get(i);
-			
-			
+
 			if (PApplet.dist(app.mouseX, app.mouseY, orbecito.getPosX(), orbecito.getPosY()) < 25) {
 				orbecito.mover(app.mouseX, app.mouseY);
 				eliminarOrbe(orbecito);
@@ -69,16 +68,40 @@ public class Logica {
 
 	public void eliminarOrbe(Orbe orbecito) {
 
-	
-		//amarillo
+		// amarillo
 		if (app.mouseX > 893 & app.mouseY > 477 & app.mouseX < 1000 & app.mouseY < 550 & orbecito.isBlue() == false) {
 			orbeArray.remove(orbecito);
 		}
-		//azul
-		if (app.mouseX > 220 & app.mouseY > 477 & app.mouseX < 319 & app.mouseY <550 & orbecito.isBlue() == true) { 
+		// azul
+		if (app.mouseX > 220 & app.mouseY > 477 & app.mouseX < 319 & app.mouseY < 550 & orbecito.isBlue() == true) {
 			orbeArray.remove(orbecito);
 		}
 
 	}
+
+	/*public void tiempo() {
+
+		
+			int minutos;
+			int segundos;
+
+			for (minutos = 0; minutos < 60; minutos++) {
+				for (segundos = 0; minutos < 60; segundos++) {
+
+					System.out.println(minutos + ":" + segundos);
+					delayTiempo();
+				}
+			}
+					
+				
+	}
+
+	public void delayTiempo() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+
+		}
+	}*/
 
 }
