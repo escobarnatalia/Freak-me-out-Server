@@ -8,7 +8,7 @@ public class Coord {
 
 	    public Coord(){}
 
-	    public Coord(int x,int y) {
+	    public Coord(float x,float y) {
 	        super();
 	        this.x=x;
 	        this.y=y;
