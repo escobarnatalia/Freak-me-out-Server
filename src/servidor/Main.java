@@ -20,6 +20,7 @@ public class Main extends PApplet {
 	float x;
 	float y;
 	PImage P1;
+	PImage P2;
 	PFont font;
 
 	public static void main(String[] args) {
@@ -36,13 +37,12 @@ public class Main extends PApplet {
 		y = 250;
 
 		P1 = loadImage("img/jugador1.png");
+		P2 = loadImage("img/jugador2.png");
 		font = createFont("res/Gilroy-Black.ttf", 20);
 
 		tcp = TCPServidor.getInstance();
 		tcp.setObserver(this);
 		// tcp.start();
-		
-		
 
 		partida = new PartidaView(this);
 		inicio = new Inicio(this);
@@ -58,58 +58,57 @@ public class Main extends PApplet {
 		case 0:
 			inicio.pintarInicio();
 			text("X:" + mouseX + "Y:" + mouseY, mouseX, mouseY);
-			
-			//boton start
-			if (mouseX > 948 & mouseY > 590 & mouseX < 1115 & mouseY < 633 ) {
+
+			// boton start
+			if (mouseX > 948 & mouseY > 590 & mouseX < 1115 & mouseY < 633) {
 				inicio.pintarStart();
 			}
-			
-			//boton exit
-			if (mouseX > 82 & mouseY > 590 & mouseX < 200 & mouseY < 633 ) {
+
+			// boton exit
+			if (mouseX > 82 & mouseY > 590 & mouseX < 200 & mouseY < 633) {
 				inicio.pintarExit();
 			}
-			
 
 			break;
 		case 1:
-			//juego
+			// juego
 			partida.pintarPartida();
 			partida.tiempo();
-			
-			
+			partida.score();
 
-			
 			tcp.getSessions();
-			for(int i = 0 ; i < tcp.getSessions().size(); i++) {
-				Session session =  tcp.getSessions().get(i);
-				image(P1, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
-				
+
+			for (int i = 0; i < tcp.getSessions().size(); i++) {
+
+				Session session = tcp.getSessions().get(i);
+				if (i == 0) {
+					image(P1, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
+
+				} else if (i == 1) {
+
+					image(P2, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
+
+				}
 			}
-			
-			
-			
+
 			fill(255);
 			text("X:" + mouseX + "Y:" + mouseY, mouseX, mouseY);
-			
-			
-			
+
 			break;
 		}
-
 	}
 
 	public void mouseDragged() {
 		partida.arrastrarLogica();
 
 	}
-	
+
 	public void mouseClicked() {
-		if (mouseX > 948 & mouseY > 590 & mouseX < 1115 & mouseY < 633 ) {
+		if (mouseX > 948 & mouseY > 590 & mouseX < 1115 & mouseY < 633) {
 			pantallas = 1;
 		}
 	}
-	
-	
+
 	public void SetCoord(float posx, float posy) {
 		x = posx;
 		y = posy;
@@ -117,35 +116,23 @@ public class Main extends PApplet {
 
 	public void ReceivedMessage(Session s, String line) {
 		// TODO Auto-generated method stub
-		
+
 		Gson gson = new Gson();
 		Coord coordReceived = gson.fromJson(line, Coord.class);
 		s.setCoord(coordReceived);
-		
-		
-		
-		
-		
-		
-		Generic generic = gson.fromJson(line,Generic.class);
-		
-		
-		
-		/*switch(generic.getType()) {
-		case "Coord":
-			
-			float posx=coordenada.getX();
-			float posy=coordenada.getY();
-			observer.SetCoord(posx,posy);
-			System.out.println(posx);
-			System.out.println(posy);
-			
-			break;
-		}*/
-		
-		
-		
-		
+
+		Generic generic = gson.fromJson(line, Generic.class);
+
+		/*
+		 * switch(generic.getType()) { case "Coord":
+		 * 
+		 * float posx=coordenada.getX(); float posy=coordenada.getY();
+		 * observer.SetCoord(posx,posy); System.out.println(posx);
+		 * System.out.println(posy);
+		 * 
+		 * break; }
+		 */
+
 		System.out.println("message" + s.getID() + ":" + line);
 
 	}

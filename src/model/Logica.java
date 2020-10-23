@@ -11,7 +11,8 @@ public class Logica {
 	private ArrayList<Orbe> orbeArray;
 	Date startDate;
 	int tiempoLimite;
-	
+	int p1score;
+	int p2score;
 
 	public Logica(PApplet app) {
 		this.app = app;
@@ -20,6 +21,9 @@ public class Logica {
 		startDate = new Date();
 
 		tiempoLimite = 120;
+		
+		p1score=0;
+		p2score=0;
 
 		Thread hilo = new Thread(() -> {
 			int cont = 0;
@@ -45,6 +49,22 @@ public class Logica {
 		});
 		hilo.start();
 
+	}
+
+	public int getP1score() {
+		return p1score;
+	}
+
+	public void setP1score(int p1score) {
+		this.p1score = p1score;
+	}
+
+	public int getP2score() {
+		return p2score;
+	}
+
+	public void setP2score(int p2score) {
+		this.p2score = p2score;
 	}
 
 	public void pintarLogica() {
@@ -76,10 +96,12 @@ public class Logica {
 		// amarillo
 		if (app.mouseX > 893 & app.mouseY > 477 & app.mouseX < 1000 & app.mouseY < 550 & orbecito.isBlue() == false) {
 			orbeArray.remove(orbecito);
+			p2score++;
 		}
 		// azul
 		if (app.mouseX > 220 & app.mouseY > 477 & app.mouseX < 319 & app.mouseY < 550 & orbecito.isBlue() == true) {
 			orbeArray.remove(orbecito);
+			p1score++;
 		}
 
 	}
@@ -90,7 +112,7 @@ public class Logica {
 
 		int numSeconds = (int) ((endDate.getTime() - startDate.getTime()) / 1000);
 		int tiempoRestante = tiempoLimite - numSeconds;
-		System.out.println("time: " + tiempoRestante);
+		//System.out.println("time: " + tiempoRestante);
 		return tiempoRestante;
 
 	}
