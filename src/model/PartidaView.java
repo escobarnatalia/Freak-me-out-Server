@@ -31,7 +31,8 @@ public class PartidaView extends Pantalla {
 	}
 	
 	public void tiempo() {
-		//logica.tiempo();
+		app.fill(255);
+		app.text("Tiempo restante " + logica.tiempo(), 505, 50);
 	}
 
 	

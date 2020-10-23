@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 
 import processing.core.PApplet;
@@ -8,13 +9,17 @@ import processing.core.PApplet;
 public class Logica {
 	private PApplet app;
 	private ArrayList<Orbe> orbeArray;
-
-	// private LinkedList<Orbe> orbeList;
+	Date startDate;
+	int tiempoLimite;
+	
 
 	public Logica(PApplet app) {
 		this.app = app;
 
 		orbeArray = new ArrayList<Orbe>();
+		startDate = new Date();
+
+		tiempoLimite = 120;
 
 		Thread hilo = new Thread(() -> {
 			int cont = 0;
@@ -79,29 +84,15 @@ public class Logica {
 
 	}
 
-	/*public void tiempo() {
+	public int tiempo() {
 
-		
-			int minutos;
-			int segundos;
+		Date endDate = new Date();
 
-			for (minutos = 0; minutos < 60; minutos++) {
-				for (segundos = 0; minutos < 60; segundos++) {
+		int numSeconds = (int) ((endDate.getTime() - startDate.getTime()) / 1000);
+		int tiempoRestante = tiempoLimite - numSeconds;
+		System.out.println("time: " + tiempoRestante);
+		return tiempoRestante;
 
-					System.out.println(minutos + ":" + segundos);
-					delayTiempo();
-				}
-			}
-					
-				
 	}
-
-	public void delayTiempo() {
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-
-		}
-	}*/
 
 }

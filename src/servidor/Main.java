@@ -7,6 +7,7 @@ import model.Generic;
 import model.Inicio;
 import model.PartidaView;
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.core.PImage;
 
 public class Main extends PApplet {
@@ -19,6 +20,7 @@ public class Main extends PApplet {
 	float x;
 	float y;
 	PImage P1;
+	PFont font;
 
 	public static void main(String[] args) {
 		PApplet.main("servidor.Main");
@@ -34,19 +36,23 @@ public class Main extends PApplet {
 		y = 250;
 
 		P1 = loadImage("img/jugador1.png");
+		font = createFont("res/Gilroy-Black.ttf", 20);
 
 		tcp = TCPServidor.getInstance();
 		tcp.setObserver(this);
 		// tcp.start();
+		
+		
 
 		partida = new PartidaView(this);
 		inicio = new Inicio(this);
-		pantallas = 1;
+		pantallas = 0;
 
 	}
 
 	public void draw() {
 		background(0);
+		textFont(font, 20);
 
 		switch (pantallas) {
 		case 0:
@@ -66,8 +72,11 @@ public class Main extends PApplet {
 
 			break;
 		case 1:
+			//juego
 			partida.pintarPartida();
-			//partida.tiempo();
+			partida.tiempo();
+			
+			
 
 			
 			tcp.getSessions();
