@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import model.Coord;
 import model.Generic;
 import model.Inicio;
+import model.Instrucciones;
 import model.PartidaView;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -15,6 +16,7 @@ public class Main extends PApplet {
 	private TCPServidor tcp;
 	PartidaView partida;
 	Inicio inicio;
+	Instrucciones instru;
 	private int pantallas;
 	// Posiciones iniciales
 	float x;
@@ -46,6 +48,7 @@ public class Main extends PApplet {
 
 		partida = new PartidaView(this);
 		inicio = new Inicio(this);
+		instru = new Instrucciones(this);
 		pantallas = 0;
 
 	}
@@ -71,6 +74,16 @@ public class Main extends PApplet {
 
 			break;
 		case 1:
+			instru.pintarInstrucciones();
+			text("X:" + mouseX + "Y:" + mouseY, mouseX, mouseY);
+
+			// boton next
+			if (mouseX > 521 & mouseY > 592 & mouseX < 674 & mouseY < 630) {
+				instru.pintarNext();
+			}
+			
+			break;
+		case 2:
 			// juego
 			partida.pintarPartida();
 			partida.tiempo();
@@ -93,7 +106,6 @@ public class Main extends PApplet {
 
 			fill(255);
 			text("X:" + mouseX + "Y:" + mouseY, mouseX, mouseY);
-
 			break;
 		}
 	}
@@ -106,6 +118,10 @@ public class Main extends PApplet {
 	public void mouseClicked() {
 		if (mouseX > 948 & mouseY > 590 & mouseX < 1115 & mouseY < 633) {
 			pantallas = 1;
+		}
+		
+		if (mouseX > 521 & mouseY > 592 & mouseX < 674 & mouseY < 630) {
+			pantallas = 2;
 		}
 	}
 
