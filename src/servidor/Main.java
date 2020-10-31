@@ -2,10 +2,12 @@ package servidor;
 
 import com.google.gson.Gson;
 
+import model.Connect;
 import model.Coord;
 import model.Generic;
 import model.Inicio;
 import model.Instrucciones;
+import model.Logica;
 import model.PartidaView;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -17,12 +19,17 @@ public class Main extends PApplet {
 	PartidaView partida;
 	Inicio inicio;
 	Instrucciones instru;
+	Connect connect;
+	Logica logic;
 	private int pantallas;
 	// Posiciones iniciales
 	float x;
 	float y;
+	boolean grab;
 	PImage P1;
+	PImage P1G;
 	PImage P2;
+	PImage P2G;
 	PFont font;
 
 	public static void main(String[] args) {
@@ -37,9 +44,14 @@ public class Main extends PApplet {
 
 		x = 250;
 		y = 250;
+		grab = false;
+		
+		logic = new Logica(this);
 
 		P1 = loadImage("img/jugador1.png");
+		P1G = loadImage("img/jugador1g.png");
 		P2 = loadImage("img/jugador2.png");
+		P2G = loadImage("img/jugador2g.png");
 		font = createFont("res/Gilroy-Black.ttf", 20);
 
 		tcp = TCPServidor.getInstance();
@@ -81,8 +93,15 @@ public class Main extends PApplet {
 			if (mouseX > 521 & mouseY > 592 & mouseX < 674 & mouseY < 630) {
 				instru.pintarNext();
 			}
-			
+
 			break;
+			
+		/*case 2: 
+			connect.pintarConnect();
+			
+			
+			break;*/
+			
 		case 2:
 			// juego
 			partida.pintarPartida();
@@ -95,13 +114,30 @@ public class Main extends PApplet {
 
 				Session session = tcp.getSessions().get(i);
 				if (i == 0) {
-					image(P1, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
+					if (grab == false) {
+						image(P1, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
+					} else {
+						image(P1G, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
+					}
+					
+					logic.setCoordp1(session.getCoord());
+					
+					
+					
+					
 
 				} else if (i == 1) {
-
-					image(P2, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
+					if (grab == false) {
+						image(P2, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
+					} else {
+						image(P2G, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
+					}
 
 				}
+				
+					logic.setCoordp2(session.getCoord());
+				
+				
 			}
 
 			fill(255);
@@ -119,7 +155,7 @@ public class Main extends PApplet {
 		if (mouseX > 948 & mouseY > 590 & mouseX < 1115 & mouseY < 633) {
 			pantallas = 1;
 		}
-		
+
 		if (mouseX > 521 & mouseY > 592 & mouseX < 674 & mouseY < 630) {
 			pantallas = 2;
 		}
@@ -130,6 +166,8 @@ public class Main extends PApplet {
 		y = posy;
 	}
 
+	
+
 	public void ReceivedMessage(Session s, String line) {
 		// TODO Auto-generated method stub
 
@@ -139,18 +177,14 @@ public class Main extends PApplet {
 
 		Generic generic = gson.fromJson(line, Generic.class);
 
-		/*
-		 * switch(generic.getType()) { case "Coord":
-		 * 
-		 * float posx=coordenada.getX(); float posy=coordenada.getY();
-		 * observer.SetCoord(posx,posy); System.out.println(posx);
-		 * System.out.println(posy);
-		 * 
-		 * break; }
-		 */
-
 		System.out.println("message" + s.getID() + ":" + line);
 
+	}
+
+	public void keyPressed() {
+		if (key == 'g') {
+			grab = !grab;
+		}
 	}
 
 }

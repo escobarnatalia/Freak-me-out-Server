@@ -66,6 +66,7 @@ class TCPServidor extends Thread {
 			sessions.add(session);
 			// 3.cliente y servidor conectados
 			System.out.println("Cliente conectado");
+			
 			}
 			
 

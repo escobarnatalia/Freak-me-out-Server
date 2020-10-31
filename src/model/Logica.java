@@ -8,11 +8,14 @@ import processing.core.PApplet;
 
 public class Logica {
 	private PApplet app;
-	private ArrayList<Orbe> orbeArray;
+	public ArrayList<Orbe> orbeArray;
 	Date startDate;
 	int tiempoLimite;
 	int p1score;
 	int p2score;
+	
+	private Coord coordp1;
+	private Coord coordp2;
 
 	public Logica(PApplet app) {
 		this.app = app;
@@ -79,22 +82,28 @@ public class Logica {
 	public void arrastrar() {
 
 		for (int i = 0; i < orbeArray.size(); i++) {
+			System.out.println("iiiiiiiiiiiiiiii"+i);
 			Orbe orbecito = orbeArray.get(i);
 
-			if (PApplet.dist(app.mouseX, app.mouseY, orbecito.getPosX(), orbecito.getPosY()) < 25) {
-				orbecito.mover(app.mouseX, app.mouseY);
-				eliminarOrbe(orbecito);
-				return;
+			if (PApplet.dist(coordp1.getX(), coordp2.getY(), orbecito.getPosX(), orbecito.getPosY())< 25 & orbecito.isBlue() == false) {
+				//orbecito.mover(app.mouseX, app.mouseY);
+				orbeArray.remove(orbecito);
+				p2score++;
+				
+				System.out.println(coordp1.getX());
+				System.out.println(coordp1.getY());
 			}
+			
+			
 
 		}
 
 	}
 
-	public void eliminarOrbe(Orbe orbecito) {
+	/*public void eliminarOrbe(Orbe orbecito) {
 
 		// amarillo
-		if (app.mouseX > 893 & app.mouseY > 477 & app.mouseX < 1000 & app.mouseY < 550 & orbecito.isBlue() == false) {
+		if (coord.getX() > orbecito.getPosX() & coord.getY() > orbecito.getPosY() & coord.getX() < 1000 & coord.getY() < 550 & orbecito.isBlue() == false) {
 			orbeArray.remove(orbecito);
 			p2score++;
 		}
@@ -104,7 +113,7 @@ public class Logica {
 			p1score++;
 		}
 
-	}
+	}*/
 
 	public int tiempo() {
 
@@ -115,6 +124,22 @@ public class Logica {
 		//System.out.println("time: " + tiempoRestante);
 		return tiempoRestante;
 
+	}
+
+	public Coord getCoordp1() {
+		return coordp1;
+	}
+
+	public void setCoordp1(Coord coordp1) {
+		this.coordp1 = coordp1;
+	}
+
+	public Coord getCoordp2() {
+		return coordp2;
+	}
+
+	public void setCoordp2(Coord coordp2) {
+		this.coordp2 = coordp2;
 	}
 
 }
