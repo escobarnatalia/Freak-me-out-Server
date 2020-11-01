@@ -27,7 +27,7 @@ public class PartidaView extends Pantalla {
 	
 
 	public void arrastrarLogica() {
-		logica.arrastrar();
+		//logica.arrastrar();
 	}
 	
 	public void tiempo() {

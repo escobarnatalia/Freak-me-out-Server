@@ -15,6 +15,8 @@ public class Logica {
 	int p1score;
 	int p2score;
 	
+
+
 	public Main main;
 	
 	private Coord coordp1;
@@ -30,6 +32,9 @@ public class Logica {
 		
 		p1score=0;
 		p2score=0;
+		
+	
+		
 
 		Thread hilo = new Thread(() -> {
 			int cont = 0;
@@ -82,26 +87,28 @@ public class Logica {
 
 	}
 
-	public void arrastrar() {
+	/*public void arrastrar() {
 
 		for (int i = 0; i < orbeArray.size(); i++) {
-			System.out.println("iiiiiiiiiiiiiiii"+i);
+			System.out.println("Orbesenarray"+i);
 			Orbe orbecito = orbeArray.get(i);
 
-			if (PApplet.dist(main.getX(), main.getY(), orbecito.getPosX(), orbecito.getPosY())< 25 & orbecito.isBlue() == false) {
+			if (PApplet.dist(x,y, orbecito.getPosX(), orbecito.getPosY())< 25 & orbecito.isBlue() == false) {
 				//orbecito.mover(app.mouseX, app.mouseY);
 				orbeArray.remove(orbecito);
 				p2score++;
 				
-				System.out.println(main.getX());
-				System.out.println(main.getY());
+				System.out.println("averx"+x);
+				System.out.println("avery"+y);
 			}
 			
 			
 
 		}
 
-	}
+	}*/
+	
+
 
 	/*public void eliminarOrbe(Orbe orbecito) {
 

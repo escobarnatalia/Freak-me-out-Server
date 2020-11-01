@@ -8,6 +8,7 @@ import model.Generic;
 import model.Inicio;
 import model.Instrucciones;
 import model.Logica;
+import model.Orbe;
 import model.PartidaView;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -46,7 +47,7 @@ public class Main extends PApplet {
 		x = 250;
 		y = 250;
 		grab = false;
-		
+
 		logic = new Logica(this);
 
 		P1 = loadImage("img/jugador1.png");
@@ -96,13 +97,14 @@ public class Main extends PApplet {
 			}
 
 			break;
-			
-		/*case 2: 
-			connect.pintarConnect();
-			
-			
-			break;*/
-			
+
+		/*
+		 * case 2: connect.pintarConnect();
+		 * 
+		 * 
+		 * break;
+		 */
+
 		case 2:
 			// juego
 			partida.pintarPartida();
@@ -113,32 +115,39 @@ public class Main extends PApplet {
 
 			for (int i = 0; i < tcp.getSessions().size(); i++) {
 
-				
 				if (i == 0) {
 					if (grab == false) {
 						image(P1, x, y, 105, 70);
 					} else {
-						image(P1G, x,y, 105, 70);
+						image(P1G, x, y, 105, 70);
 					}
-					
-				
-					
-					
-					
-					
 
 				} else if (i == 1) {
 					if (grab == false) {
-						image(P2, x,y, 105, 70);
+						image(P2, x, y, 105, 70);
 					} else {
 						image(P2G, x, y, 105, 70);
 					}
 
 				}
-				
-	
-				
-				
+
+				for (int l = 0; l < logic.orbeArray.size(); l++) {
+
+					Orbe orbecito = logic.orbeArray.get(l);
+
+					float d = dist(x, y, orbecito.getPosX(), orbecito.getPosY());
+
+					if (d < 50 & orbecito.isBlue() == false) {
+						// orbecito.mover(app.mouseX, app.mouseY);
+						logic.orbeArray.remove(orbecito);
+						logic.setP1score(1);
+
+						System.out.println("averx" + x);
+						System.out.println("avery" + y);
+					}
+
+				}
+
 			}
 
 			fill(255);
@@ -147,31 +156,9 @@ public class Main extends PApplet {
 		}
 	}
 
-	
-	public float getX() {
-		return x;
-	}
-
-	public void setX(float x) {
-		this.x = x;
-	}
-	
-	public float getY() {
-		return y;
-	}
-
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	
-	
-	public void mouseDragged() {
-		partida.arrastrarLogica();
+	public void arrastrar() {
 
 	}
-	
-
 
 	public void mouseClicked() {
 		if (mouseX > 948 & mouseY > 590 & mouseX < 1115 & mouseY < 633) {
@@ -187,11 +174,10 @@ public class Main extends PApplet {
 		x = posx;
 		y = posy;
 	}
-	
-	public void SetGrab(int gg) {
-		g=gg;
-	}
 
+	public void SetGrab(int gg) {
+		g = gg;
+	}
 
 	public void keyPressed() {
 		if (key == 'g') {
