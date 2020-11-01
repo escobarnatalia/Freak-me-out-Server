@@ -14,10 +14,13 @@ import com.google.gson.Gson;
 
 import model.Coord;
 import model.Generic;
+import model.Grab;
+
 
 public class Session extends Thread {
 
 	private Coord coord;
+	private Grab grab;
 	private String id;
 	private BufferedWriter writer;
 	private Socket socket;
@@ -26,7 +29,9 @@ public class Session extends Thread {
 	public Session(Socket socket) {
 		this.socket = socket;
 		this.id = UUID.randomUUID().toString();
-		coord = new Coord(250,250);
+	
+		
+		
 		
 
 	}
@@ -44,8 +49,30 @@ public class Session extends Thread {
 			while (true) {
 				System.out.println("Esperando...");
 				String line = reader.readLine();
-				observer.ReceivedMessage(this,line);
+				System.out.println("Recibido:" + line);
+				
 	
+				Gson gson = new Gson();
+				Generic generic = gson.fromJson(line, Generic.class);
+				
+		
+				switch(generic.getType()) {
+				
+				case "Coord": 
+				Coord coord = gson.fromJson(line, Coord.class);
+				float posx = coord.getX();
+				float posy = coord.getY();				
+				observer.SetCoord(posx,posy);
+				
+				break;
+				
+				case "Grab":
+				Grab grab = gson.fromJson(line, Grab.class);
+				int gg= grab.getG();
+				observer.SetGrab(gg);
+				
+				
+				}
 				
 				
 				
@@ -76,20 +103,7 @@ public class Session extends Thread {
 	}
 
 	
-	public String getID() {
-		return this.id;
-	}
-	
-	
-	public Coord getCoord() {
-		return this.coord;
-		
-	}
 
-	public void setCoord(Coord coord) {
-		// TODO Auto-generated method stub
-		this.coord = coord;
-	}
-	
+
 	
 }

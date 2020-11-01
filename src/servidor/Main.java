@@ -25,6 +25,7 @@ public class Main extends PApplet {
 	// Posiciones iniciales
 	float x;
 	float y;
+	int g;
 	boolean grab;
 	PImage P1;
 	PImage P1G;
@@ -112,15 +113,15 @@ public class Main extends PApplet {
 
 			for (int i = 0; i < tcp.getSessions().size(); i++) {
 
-				Session session = tcp.getSessions().get(i);
+				
 				if (i == 0) {
 					if (grab == false) {
-						image(P1, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
+						image(P1, x, y, 105, 70);
 					} else {
-						image(P1G, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
+						image(P1G, x,y, 105, 70);
 					}
 					
-					logic.setCoordp1(session.getCoord());
+				
 					
 					
 					
@@ -128,14 +129,14 @@ public class Main extends PApplet {
 
 				} else if (i == 1) {
 					if (grab == false) {
-						image(P2, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
+						image(P2, x,y, 105, 70);
 					} else {
-						image(P2G, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
+						image(P2G, x, y, 105, 70);
 					}
 
 				}
 				
-					logic.setCoordp2(session.getCoord());
+	
 				
 				
 			}
@@ -146,10 +147,31 @@ public class Main extends PApplet {
 		}
 	}
 
+	
+	public float getX() {
+		return x;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+	
+	public float getY() {
+		return y;
+	}
+
+	public void setY(float y) {
+		this.y = y;
+	}
+
+	
+	
 	public void mouseDragged() {
 		partida.arrastrarLogica();
 
 	}
+	
+
 
 	public void mouseClicked() {
 		if (mouseX > 948 & mouseY > 590 & mouseX < 1115 & mouseY < 633) {
@@ -165,21 +187,11 @@ public class Main extends PApplet {
 		x = posx;
 		y = posy;
 	}
-
 	
-
-	public void ReceivedMessage(Session s, String line) {
-		// TODO Auto-generated method stub
-
-		Gson gson = new Gson();
-		Coord coordReceived = gson.fromJson(line, Coord.class);
-		s.setCoord(coordReceived);
-
-		Generic generic = gson.fromJson(line, Generic.class);
-
-		System.out.println("message" + s.getID() + ":" + line);
-
+	public void SetGrab(int gg) {
+		g=gg;
 	}
+
 
 	public void keyPressed() {
 		if (key == 'g') {

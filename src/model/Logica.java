@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import processing.core.PApplet;
+import servidor.Main;
 
 public class Logica {
 	private PApplet app;
@@ -13,6 +14,8 @@ public class Logica {
 	int tiempoLimite;
 	int p1score;
 	int p2score;
+	
+	public Main main;
 	
 	private Coord coordp1;
 	private Coord coordp2;
@@ -85,13 +88,13 @@ public class Logica {
 			System.out.println("iiiiiiiiiiiiiiii"+i);
 			Orbe orbecito = orbeArray.get(i);
 
-			if (PApplet.dist(coordp1.getX(), coordp2.getY(), orbecito.getPosX(), orbecito.getPosY())< 25 & orbecito.isBlue() == false) {
+			if (PApplet.dist(main.getX(), main.getY(), orbecito.getPosX(), orbecito.getPosY())< 25 & orbecito.isBlue() == false) {
 				//orbecito.mover(app.mouseX, app.mouseY);
 				orbeArray.remove(orbecito);
 				p2score++;
 				
-				System.out.println(coordp1.getX());
-				System.out.println(coordp1.getY());
+				System.out.println(main.getX());
+				System.out.println(main.getY());
 			}
 			
 			
