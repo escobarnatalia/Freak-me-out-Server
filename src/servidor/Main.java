@@ -27,7 +27,12 @@ public class Main extends PApplet {
 	float x;
 	float y;
 	int g;
+	int slotp1;
+	int slotp2;
+	int sc1;
+	int sc2;
 	boolean grab;
+	boolean grab2;
 	PImage P1;
 	PImage P1G;
 	PImage P2;
@@ -46,7 +51,12 @@ public class Main extends PApplet {
 
 		x = 250;
 		y = 250;
+		slotp1 = 0;
+		slotp2 = 0;
+		sc1=0;
+		sc2=0;
 		grab = false;
+		grab2=false;
 
 		logic = new Logica(this);
 
@@ -109,7 +119,7 @@ public class Main extends PApplet {
 			// juego
 			partida.pintarPartida();
 			partida.tiempo();
-			partida.score();
+			score();
 
 			tcp.getSessions();
 
@@ -117,15 +127,20 @@ public class Main extends PApplet {
 
 				if (i == 0) {
 					if (grab == false) {
+						imageMode(CENTER);
 						image(P1, x, y, 105, 70);
+						rect(x, y, 10, 10);
 					} else {
+						imageMode(CENTER);
 						image(P1G, x, y, 105, 70);
 					}
 
 				} else if (i == 1) {
-					if (grab == false) {
+					if (grab2 == false) {
+						imageMode(CENTER);
 						image(P2, x, y, 105, 70);
 					} else {
+						imageMode(CENTER);
 						image(P2G, x, y, 105, 70);
 					}
 
@@ -135,34 +150,73 @@ public class Main extends PApplet {
 
 					Orbe orbecito = logic.orbeArray.get(l);
 
-					float d = dist(x, y, orbecito.getPosX(), orbecito.getPosY());
+					orbecito.pintarOrbe();
 
-					if (d < 50 & orbecito.isBlue() == false) {
-						// orbecito.mover(app.mouseX, app.mouseY);
-						logic.orbeArray.remove(orbecito);
-						logic.setP1score(1);
+					System.out.println("arregloo" + logic.orbeArray);
 
-						System.out.println("averx" + x);
-						System.out.println("avery" + y);
+					if (slotp1 == 0 & i == 0) {
+						if (dist(x, y, orbecito.getPosX(), orbecito.getPosY()) < 50 & orbecito.isBlue() == false) {
+
+							System.out.println("averx" + orbecito.getPosX());
+							System.out.println("posx" + x);
+							System.out.println("avery" + orbecito.getPosY());
+							System.out.println("psoy" + y);
+							logic.getOrbeArray().remove(orbecito);
+							slotp1 = 1;
+							grab = !grab;
+						}
 					}
 
+					if (slotp1 == 1 & i == 0) {
+						if (dist(x, y, 980, 512) < 20) {
+							slotp1 = 0;
+							grab = !grab;
+							sc1++;
+							
+						}
+					}
+					
+					
+					if (slotp2 == 0 & i == 1) {
+						if (dist(x, y, orbecito.getPosX(), orbecito.getPosY()) < 50 & orbecito.isBlue() == false) {
+
+							System.out.println("averx" + orbecito.getPosX());
+							System.out.println("posx" + x);
+							System.out.println("avery" + orbecito.getPosY());
+							System.out.println("psoy" + y);
+							logic.getOrbeArray().remove(orbecito);
+							slotp2 = 1;
+							grab2 = !grab2;
+						}
+					}
+
+					if (slotp2 == 1 & i == 1) {
+						if (dist(x, y, 980, 512) < 20) {
+							slotp2 = 0;
+							grab2 = !grab2;
+							sc2++;
+						}
+					}
+					
+					
 				}
 
 			}
-
 			fill(255);
 			text("X:" + mouseX + "Y:" + mouseY, mouseX, mouseY);
 			break;
-		}
-	}
 
-	public void arrastrar() {
+		}
 
 	}
 
 	public void mouseClicked() {
 		if (mouseX > 948 & mouseY > 590 & mouseX < 1115 & mouseY < 633) {
 			pantallas = 1;
+		}
+
+		if (mouseX > 82 & mouseY > 590 & mouseX < 200 & mouseY < 633) {
+			exit();
 		}
 
 		if (mouseX > 521 & mouseY > 592 & mouseX < 674 & mouseY < 630) {
@@ -183,6 +237,15 @@ public class Main extends PApplet {
 		if (key == 'g') {
 			grab = !grab;
 		}
+	}
+	
+	
+	public void score() {
+		fill(255);
+		text("Puntos: " +sc2, 100, 50);
+		
+		fill(255);
+		text("Puntos: " +sc1 , 800, 50);
 	}
 
 }

@@ -22,7 +22,7 @@ public class PartidaView extends Pantalla {
 	public void pintarPartida() {
 		app.imageMode(CORNER);
 		app.image(fondo, 0, 0, 1200, 700);
-		logica.pintarLogica();
+		
 	}
 	
 
@@ -35,13 +35,7 @@ public class PartidaView extends Pantalla {
 		app.text("Tiempo restante " + logica.tiempo(), 505, 50);
 	}
 	
-	public void score() {
-		app.fill(255);
-		app.text("Puntos: " +logica.getP1score(), 100, 50);
-		
-		app.fill(255);
-		app.text("Puntos: " + logica.getP2score(), 800, 50);
-	}
+
 
 	
 

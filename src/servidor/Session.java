@@ -49,7 +49,7 @@ public class Session extends Thread {
 			while (true) {
 				System.out.println("Esperando...");
 				String line = reader.readLine();
-				System.out.println("Recibido:" + line);
+				//System.out.println("Recibido:" + line);
 				
 	
 				Gson gson = new Gson();

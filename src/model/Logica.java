@@ -10,14 +10,13 @@ import servidor.Main;
 public class Logica {
 	private PApplet app;
 	public ArrayList<Orbe> orbeArray;
+	
+
 	Date startDate;
 	int tiempoLimite;
 	int p1score;
 	int p2score;
 	
-
-
-	public Main main;
 	
 	private Coord coordp1;
 	private Coord coordp2;
@@ -51,7 +50,7 @@ public class Logica {
 				orbeArray.add(new Orbe(posX, posY, app, isBlue));
 				cont++;
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(10000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -62,68 +61,6 @@ public class Logica {
 
 	}
 
-	public int getP1score() {
-		return p1score;
-	}
-
-	public void setP1score(int p1score) {
-		this.p1score = p1score;
-	}
-
-	public int getP2score() {
-		return p2score;
-	}
-
-	public void setP2score(int p2score) {
-		this.p2score = p2score;
-	}
-
-	public void pintarLogica() {
-
-		for (int i = 0; i < orbeArray.size(); i++) {
-			Orbe orbecito = orbeArray.get(i);
-			orbecito.pintarOrbe();
-		}
-
-	}
-
-	/*public void arrastrar() {
-
-		for (int i = 0; i < orbeArray.size(); i++) {
-			System.out.println("Orbesenarray"+i);
-			Orbe orbecito = orbeArray.get(i);
-
-			if (PApplet.dist(x,y, orbecito.getPosX(), orbecito.getPosY())< 25 & orbecito.isBlue() == false) {
-				//orbecito.mover(app.mouseX, app.mouseY);
-				orbeArray.remove(orbecito);
-				p2score++;
-				
-				System.out.println("averx"+x);
-				System.out.println("avery"+y);
-			}
-			
-			
-
-		}
-
-	}*/
-	
-
-
-	/*public void eliminarOrbe(Orbe orbecito) {
-
-		// amarillo
-		if (coord.getX() > orbecito.getPosX() & coord.getY() > orbecito.getPosY() & coord.getX() < 1000 & coord.getY() < 550 & orbecito.isBlue() == false) {
-			orbeArray.remove(orbecito);
-			p2score++;
-		}
-		// azul
-		if (app.mouseX > 220 & app.mouseY > 477 & app.mouseX < 319 & app.mouseY < 550 & orbecito.isBlue() == true) {
-			orbeArray.remove(orbecito);
-			p1score++;
-		}
-
-	}*/
 
 	public int tiempo() {
 
@@ -135,21 +72,14 @@ public class Logica {
 		return tiempoRestante;
 
 	}
-
-	public Coord getCoordp1() {
-		return coordp1;
+	
+	
+	public ArrayList<Orbe> getOrbeArray() {
+		return orbeArray;
 	}
 
-	public void setCoordp1(Coord coordp1) {
-		this.coordp1 = coordp1;
-	}
-
-	public Coord getCoordp2() {
-		return coordp2;
-	}
-
-	public void setCoordp2(Coord coordp2) {
-		this.coordp2 = coordp2;
+	public void setOrbeArray(ArrayList<Orbe> orbeArray) {
+		this.orbeArray = orbeArray;
 	}
 
 }
