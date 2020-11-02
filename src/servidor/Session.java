@@ -16,23 +16,19 @@ import model.Coord;
 import model.Generic;
 import model.Grab;
 
-
 public class Session extends Thread {
 
 	private Coord coord;
-	private Grab grab;
+
 	private String id;
 	private BufferedWriter writer;
 	private Socket socket;
 	private Main observer;
-	
+
 	public Session(Socket socket) {
 		this.socket = socket;
 		this.id = UUID.randomUUID().toString();
-	
-		
-		
-		
+		coord = new Coord(250, 250);
 
 	}
 
@@ -41,41 +37,16 @@ public class Session extends Thread {
 		try {
 			InputStream is = socket.getInputStream();
 			OutputStream os = socket.getOutputStream();
-			
+
 			writer = new BufferedWriter(new OutputStreamWriter(os));
-			BufferedReader reader= new BufferedReader(new InputStreamReader(is));
-			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
 			while (true) {
-				System.out.println("Esperando...");
+				//System.out.println("Esperando...");
 				String line = reader.readLine();
 				//System.out.println("Recibido:" + line);
-				
-	
-				Gson gson = new Gson();
-				Generic generic = gson.fromJson(line, Generic.class);
-				
-		
-				switch(generic.getType()) {
-				
-				case "Coord": 
-				Coord coord = gson.fromJson(line, Coord.class);
-				float posx = coord.getX();
-				float posy = coord.getY();				
-				observer.SetCoord(posx,posy);
-				
-				break;
-				
-				case "Grab":
-				Grab grab = gson.fromJson(line, Grab.class);
-				int gg= grab.getG();
-				observer.SetGrab(gg);
-				
-				
-				}
-				
-				
-				
+				observer.ReceivedMessage(this, line);
+
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -95,15 +66,25 @@ public class Session extends Thread {
 			}
 
 		}).start();
-	
+
 	}
 
 	public void setObserver(Main observer) {
 		this.observer = observer;
 	}
 
-	
+	public String getID() {
+		return this.id;
+	}
 
+	public Coord getCoord() {
+		return this.coord;
 
-	
+	}
+
+	public void setCoord(Coord coord) {
+		// TODO Auto-generated method stub
+		this.coord = coord;
+	}
+
 }

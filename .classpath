@@ -4,5 +4,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="src/lib/core.jar"/>
 	<classpathentry kind="lib" path="src/lib/gson-2.8.6.jar"/>
+	<classpathentry kind="lib" path="src/lib/sound.jar"/>
+	<classpathentry kind="lib" path="src/lib/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="src/lib/javamp3-1.0.4.jar"/>
+	<classpathentry kind="lib" path="src/lib/jogl-all.jar"/>
+	<classpathentry kind="lib" path="src/lib/jsyn-20171016.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

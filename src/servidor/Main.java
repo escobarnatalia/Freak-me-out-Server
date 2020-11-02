@@ -13,6 +13,7 @@ import model.PartidaView;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
+import processing.sound.SoundFile;
 
 public class Main extends PApplet {
 
@@ -20,7 +21,7 @@ public class Main extends PApplet {
 	PartidaView partida;
 	Inicio inicio;
 	Instrucciones instru;
-	Connect connect;
+	Connect conn;
 	Logica logic;
 	private int pantallas;
 	// Posiciones iniciales
@@ -38,6 +39,9 @@ public class Main extends PApplet {
 	PImage P2;
 	PImage P2G;
 	PFont font;
+	
+	SoundFile gamemusic;
+	SoundFile menumusic;
 
 	public static void main(String[] args) {
 		PApplet.main("servidor.Main");
@@ -53,12 +57,19 @@ public class Main extends PApplet {
 		y = 250;
 		slotp1 = 0;
 		slotp2 = 0;
-		sc1=0;
-		sc2=0;
+		sc1 = 0;
+		sc2 = 0;
 		grab = false;
-		grab2=false;
+		grab2 = false;
 
 		logic = new Logica(this);
+		
+		
+		menumusic = new SoundFile(this,"music/menumusic.mp3");
+		gamemusic = new SoundFile(this,"music/gamemusic.mp3");
+		menumusic.amp((float) 0.1);
+		menumusic.play();
+		menumusic.loop();
 
 		P1 = loadImage("img/jugador1.png");
 		P1G = loadImage("img/jugador1g.png");
@@ -73,6 +84,7 @@ public class Main extends PApplet {
 		partida = new PartidaView(this);
 		inicio = new Inicio(this);
 		instru = new Instrucciones(this);
+		conn = new Connect(this);
 		pantallas = 0;
 
 	}
@@ -102,20 +114,33 @@ public class Main extends PApplet {
 			text("X:" + mouseX + "Y:" + mouseY, mouseX, mouseY);
 
 			// boton next
-			if (mouseX > 521 & mouseY > 592 & mouseX < 674 & mouseY < 630) {
+			if (mouseX > 823 & mouseY > 560 & mouseX < 1000 & mouseY < 630) {
 				instru.pintarNext();
 			}
 
 			break;
 
-		/*
-		 * case 2: connect.pintarConnect();
-		 * 
-		 * 
-		 * break;
-		 */
-
 		case 2:
+
+			conn.pintarConnect();
+
+			tcp.getSessions();
+
+			for (int i = 0; i < tcp.getSessions().size(); i++) {
+				conn.pintarlink();
+				if (i == 1) {
+					pantallas = 3;
+					menumusic.stop();
+					gamemusic.amp((float) 0.1);
+					gamemusic.play();
+					gamemusic.loop();
+				}
+
+			}
+
+			break;
+
+		case 3:
 			// juego
 			partida.pintarPartida();
 			partida.tiempo();
@@ -125,23 +150,27 @@ public class Main extends PApplet {
 
 			for (int i = 0; i < tcp.getSessions().size(); i++) {
 
+				Session session = tcp.getSessions().get(i);
+
 				if (i == 0) {
 					if (grab == false) {
 						imageMode(CENTER);
-						image(P1, x, y, 105, 70);
-						rect(x, y, 10, 10);
+						image(P1, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
+						rect(session.getCoord().getX(), session.getCoord().getY(), 10, 10);
 					} else {
 						imageMode(CENTER);
-						image(P1G, x, y, 105, 70);
+						image(P1G, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
 					}
 
-				} else if (i == 1) {
+				}
+
+				if (i == 1) {
 					if (grab2 == false) {
 						imageMode(CENTER);
-						image(P2, x, y, 105, 70);
+						image(P2, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
 					} else {
 						imageMode(CENTER);
-						image(P2G, x, y, 105, 70);
+						image(P2G, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
 					}
 
 				}
@@ -152,15 +181,12 @@ public class Main extends PApplet {
 
 					orbecito.pintarOrbe();
 
-					System.out.println("arregloo" + logic.orbeArray);
+					
 
 					if (slotp1 == 0 & i == 0) {
-						if (dist(x, y, orbecito.getPosX(), orbecito.getPosY()) < 50 & orbecito.isBlue() == false) {
+						if (dist(session.getCoord().getX(), session.getCoord().getY(), orbecito.getPosX(),
+								orbecito.getPosY()) < 50 & orbecito.isBlue() == false) {
 
-							System.out.println("averx" + orbecito.getPosX());
-							System.out.println("posx" + x);
-							System.out.println("avery" + orbecito.getPosY());
-							System.out.println("psoy" + y);
 							logic.getOrbeArray().remove(orbecito);
 							slotp1 = 1;
 							grab = !grab;
@@ -168,22 +194,19 @@ public class Main extends PApplet {
 					}
 
 					if (slotp1 == 1 & i == 0) {
-						if (dist(x, y, 980, 512) < 20) {
+						if (dist(session.getCoord().getX(), session.getCoord().getY(), 980, 512) < 20) {
 							slotp1 = 0;
 							grab = !grab;
 							sc1++;
-							
+
 						}
 					}
-					
-					
-					if (slotp2 == 0 & i == 1) {
-						if (dist(x, y, orbecito.getPosX(), orbecito.getPosY()) < 50 & orbecito.isBlue() == false) {
 
-							System.out.println("averx" + orbecito.getPosX());
-							System.out.println("posx" + x);
-							System.out.println("avery" + orbecito.getPosY());
-							System.out.println("psoy" + y);
+					if (slotp2 == 0 & i == 1) {
+						if (dist(session.getCoord().getX(), session.getCoord().getY(), orbecito.getPosX(),
+								orbecito.getPosY()) < 50 & orbecito.isBlue() == true) {
+
+						
 							logic.getOrbeArray().remove(orbecito);
 							slotp2 = 1;
 							grab2 = !grab2;
@@ -191,14 +214,13 @@ public class Main extends PApplet {
 					}
 
 					if (slotp2 == 1 & i == 1) {
-						if (dist(x, y, 980, 512) < 20) {
+						if (dist(session.getCoord().getX(), session.getCoord().getY(), 259, 513) < 20) {
 							slotp2 = 0;
 							grab2 = !grab2;
 							sc2++;
 						}
 					}
-					
-					
+
 				}
 
 			}
@@ -211,26 +233,34 @@ public class Main extends PApplet {
 	}
 
 	public void mouseClicked() {
-		if (mouseX > 948 & mouseY > 590 & mouseX < 1115 & mouseY < 633) {
-			pantallas = 1;
+
+		switch (pantallas) {
+		case 0:
+			if (mouseX > 948 & mouseY > 590 & mouseX < 1115 & mouseY < 633) {
+				pantallas = 1;
+			}
+
+			if (mouseX > 82 & mouseY > 590 & mouseX < 200 & mouseY < 633) {
+				exit();
+			}
+
+			break;
+
+		case 1:
+			if (mouseX > 823 & mouseY > 560 & mouseX < 1000 & mouseY < 630) {
+				pantallas = 2;
+			}
+
+			break;
+
+		case 2:
+			if (mouseX > 948 & mouseY > 590 & mouseX < 1115 & mouseY < 633) {
+				pantallas = 3;
+
+				break;
+			}
+
 		}
-
-		if (mouseX > 82 & mouseY > 590 & mouseX < 200 & mouseY < 633) {
-			exit();
-		}
-
-		if (mouseX > 521 & mouseY > 592 & mouseX < 674 & mouseY < 630) {
-			pantallas = 2;
-		}
-	}
-
-	public void SetCoord(float posx, float posy) {
-		x = posx;
-		y = posy;
-	}
-
-	public void SetGrab(int gg) {
-		g = gg;
 	}
 
 	public void keyPressed() {
@@ -238,14 +268,26 @@ public class Main extends PApplet {
 			grab = !grab;
 		}
 	}
-	
-	
+
 	public void score() {
 		fill(255);
-		text("Puntos: " +sc2, 100, 50);
-		
+		text("Puntos: " + sc2, 100, 50);
+
 		fill(255);
-		text("Puntos: " +sc1 , 800, 50);
+		text("Puntos: " + sc1, 800, 50);
+	}
+
+	public void ReceivedMessage(Session s, String line) {
+		// TODO Auto-generated method stub
+
+		Gson gson = new Gson();
+		Coord coordReceived = gson.fromJson(line, Coord.class);
+		s.setCoord(coordReceived);
+
+		Generic generic = gson.fromJson(line, Generic.class);
+
+	
+
 	}
 
 }

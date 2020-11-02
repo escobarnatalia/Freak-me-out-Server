@@ -26,10 +26,7 @@ public class PartidaView extends Pantalla {
 	}
 	
 
-	public void arrastrarLogica() {
-		//logica.arrastrar();
-	}
-	
+
 	public void tiempo() {
 		app.fill(255);
 		app.text("Tiempo restante " + logica.tiempo(), 505, 50);

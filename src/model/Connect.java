@@ -6,6 +6,7 @@ import processing.core.PImage;
 public class Connect extends Pantalla{
 	
 	PImage connectbg;
+	PImage connectxt;
 	PImage connect;
 
 	public Connect(PApplet app) {
@@ -13,6 +14,7 @@ public class Connect extends Pantalla{
 		
 		connectbg= app.loadImage("img/ConnectBg.png");
 		connect= app.loadImage("img/Connecting.png");
+		connectxt=app.loadImage("img/Connectxt.png");
 		
 		
 		
@@ -23,7 +25,21 @@ public class Connect extends Pantalla{
 	
 	public void pintarConnect() {
 		app.imageMode(CORNER);
-		app.image(connect, 0, 0, 1200, 700);
+		app.image(connectbg, 0, 0, 1200, 700);
+		app.image(connectxt, 0, 0,1200,700);
 	}
 
+	
+	public void pintarlink() {
+		app.imageMode(CORNER);
+		app.image(connect,0,0,1200,700);
+		
+		
+		
+		
+	}
+	
+	
+	
+	
 }
