@@ -22,6 +22,7 @@ public class Main extends PApplet {
 	Inicio inicio;
 	Instrucciones instru;
 	Connect conn;
+
 	Logica logic;
 	private int pantallas;
 	// Posiciones iniciales
@@ -38,8 +39,12 @@ public class Main extends PApplet {
 	PImage P1G;
 	PImage P2;
 	PImage P2G;
-	PFont font;
+	PImage p1win;
+	PImage p2win;
 	
+	
+	PFont font;
+
 	SoundFile gamemusic;
 	SoundFile menumusic;
 
@@ -63,10 +68,10 @@ public class Main extends PApplet {
 		grab2 = false;
 
 		logic = new Logica(this);
-		
-		
-		menumusic = new SoundFile(this,"music/menumusic.mp3");
-		gamemusic = new SoundFile(this,"music/gamemusic.mp3");
+
+		menumusic = new SoundFile(this, "music/menumusic.mp3");
+		gamemusic = new SoundFile(this, "music/gamemusic.mp3");
+
 		menumusic.amp((float) 0.1);
 		menumusic.play();
 		menumusic.loop();
@@ -75,6 +80,11 @@ public class Main extends PApplet {
 		P1G = loadImage("img/jugador1g.png");
 		P2 = loadImage("img/jugador2.png");
 		P2G = loadImage("img/jugador2g.png");
+		p1win = loadImage("img/p1win.png");
+		p2win = loadImage("img/p2win.png");
+		
+		
+		
 		font = createFont("res/Gilroy-Black.ttf", 20);
 
 		tcp = TCPServidor.getInstance();
@@ -156,7 +166,6 @@ public class Main extends PApplet {
 					if (grab == false) {
 						imageMode(CENTER);
 						image(P1, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
-						rect(session.getCoord().getX(), session.getCoord().getY(), 10, 10);
 					} else {
 						imageMode(CENTER);
 						image(P1G, session.getCoord().getX(), session.getCoord().getY(), 105, 70);
@@ -181,8 +190,6 @@ public class Main extends PApplet {
 
 					orbecito.pintarOrbe();
 
-					
-
 					if (slotp1 == 0 & i == 0) {
 						if (dist(session.getCoord().getX(), session.getCoord().getY(), orbecito.getPosX(),
 								orbecito.getPosY()) < 50 & orbecito.isBlue() == false) {
@@ -206,7 +213,6 @@ public class Main extends PApplet {
 						if (dist(session.getCoord().getX(), session.getCoord().getY(), orbecito.getPosX(),
 								orbecito.getPosY()) < 50 & orbecito.isBlue() == true) {
 
-						
 							logic.getOrbeArray().remove(orbecito);
 							slotp2 = 1;
 							grab2 = !grab2;
@@ -221,13 +227,35 @@ public class Main extends PApplet {
 						}
 					}
 
+					if (sc2 == 5) {
+						pantallas = 5;
+					}
+
+					if (sc1 == 5) {
+						pantallas = 4;
+					}
+
 				}
 
 			}
-			fill(255);
-			text("X:" + mouseX + "Y:" + mouseY, mouseX, mouseY);
+			/*
+			 * fill(255); text("X:" + mouseX + "Y:" + mouseY, mouseX, mouseY);
+			 */
 			break;
 
+		case 4:
+
+			
+
+			image(p1win, 0, 0);
+
+			break;
+
+		case 5:
+
+			image(p2win, 0, 0);
+
+			break;
 		}
 
 	}
@@ -256,9 +284,22 @@ public class Main extends PApplet {
 		case 2:
 			if (mouseX > 948 & mouseY > 590 & mouseX < 1115 & mouseY < 633) {
 				pantallas = 3;
-
-				break;
 			}
+				break;
+			
+		case 4:
+			if (mouseX > 0 & mouseY > 0 & mouseX < 1200 & mouseY < 700) {
+				exit();
+			}
+			
+			break;
+			
+		case 5: 
+			if (mouseX > 0 & mouseY > 0 & mouseX < 1200 & mouseY < 700) {
+				exit();
+			}
+			break; 
+		
 
 		}
 	}
@@ -266,6 +307,10 @@ public class Main extends PApplet {
 	public void keyPressed() {
 		if (key == 'g') {
 			grab = !grab;
+		}
+		
+		if (key == 'j') {
+			pantallas++;
 		}
 	}
 
@@ -285,8 +330,6 @@ public class Main extends PApplet {
 		s.setCoord(coordReceived);
 
 		Generic generic = gson.fromJson(line, Generic.class);
-
-	
 
 	}
 

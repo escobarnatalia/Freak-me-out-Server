@@ -27,7 +27,7 @@ public class Logica {
 		orbeArray = new ArrayList<Orbe>();
 		startDate = new Date();
 
-		tiempoLimite = 120;
+		tiempoLimite = 180;
 		
 		p1score=0;
 		p2score=0;
@@ -59,6 +59,16 @@ public class Logica {
 		});
 		hilo.start();
 
+	}
+
+
+	public int getTiempoLimite() {
+		return tiempoLimite;
+	}
+
+
+	public void setTiempoLimite(int tiempoLimite) {
+		this.tiempoLimite = tiempoLimite;
 	}
 
 
